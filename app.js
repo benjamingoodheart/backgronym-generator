@@ -1,10 +1,18 @@
 
 const fs = require('fs/promises');
 const words = require('./words_dictionary.json')
+const four_letters = []
 
+function filterWordList(){
+    for (const word in words){
+        if (word.length === 4) {
+            four_letters.push(word)
+        }
+    }
+}
 
 function getRandomInt(){
-    return Math.ceil(Math.random()*100000)
+    return Math.floor(Math.random()*1000)
 }
 
 function matches(int, i){
@@ -13,18 +21,16 @@ function matches(int, i){
 
 function getRandomWord(){
     let int = getRandomInt()
-    let i = 0
+    console.log(int)
+    /**
+    for (let i = 0; i < four_letters.length; i++) {
+        console.log(four_letters[i])
+    } */
 
 
-    for (const word in words){
-        if (int === i){
-            console.log(int)
-            console.log(word)
-            break;
-        }
-        i++
-    }
+    
 
 }
-console.log(getRandomWord())
 
+filterWordList()
+getRandomWord()
