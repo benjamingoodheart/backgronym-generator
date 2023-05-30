@@ -1,7 +1,8 @@
-
 const fs = require('fs/promises');
 const words = require('./words_dictionary.json')
 const four_letters = []
+const axios = require('axios')
+const BASE_URL = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
 
 
 function filterWordList(){
@@ -29,10 +30,39 @@ function getRandomWord(){
     for (let i = 0; i < four_letters.length; i++) {
         if(matches(int, i)){
             console.log(four_letters[int])
+            return four_letters[int]
         }
     }
     
 }
 
+async function queryDict(word){
+    const endpoint = `${BASE_URL}${word}`
+    await axios.get(endpoint)
+    .then((response)=>{
+        console.log(response.data[0].meanings[0].definitions)
+        return response
+    })
+}
+
+async function getDefinition(word){
+    await queryDict(word)
+    .then((response)=>{
+        console.log(response)
+        return response
+    })
+}
+
+function backronym(word){
+    for (const w in word){
+        console.log(word[w])
+    }
+}
+
 filterWordList()
-getRandomWord()
+let term = getRandomWord()
+let query = queryDict(term)
+console.log(query)
+backronym(term)
+
+
