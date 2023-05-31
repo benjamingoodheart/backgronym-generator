@@ -1,16 +1,18 @@
 const fs = require('fs/promises');
 const words = require('./words_dictionary.json')
-const four_letters = []
 const axios = require('axios')
 const BASE_URL = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
 
 
-function filterWordList(){
+function filterByFourLetters(){
+    const four_letters = []
+
     for (const word in words){
         if (word.length === 4) {
             four_letters.push(word)
         }
     }
+    return four_letters
 }
 
 function getRandomInt(min, max){
@@ -24,13 +26,13 @@ function matches(int, i){
     return int === i ? true : false;
 }
 
-function getRandomWord(){
-    let int = getRandomInt(1, four_letters.length)
+function getRandomWord(wordArr){
+    let int = getRandomInt(1, wordArr.length)
     console.log(int)
-    for (let i = 0; i < four_letters.length; i++) {
+    for (let i = 0; i < wordArr.length; i++) {
         if(matches(int, i)){
-            console.log(four_letters[int])
-            return four_letters[int]
+            console.log(wordArr[int])
+            return wordArr[int]
         }
     }
     
@@ -38,31 +40,51 @@ function getRandomWord(){
 
 async function queryDict(word){
     const endpoint = `${BASE_URL}${word}`
+    try{
     await axios.get(endpoint)
     .then((response)=>{
         console.log(response.data[0].meanings[0].definitions)
         return response
     })
+    } catch (err) {
+        console.log("Whoops - No definitions, let's try again")
+
+    }
 }
 
-async function getDefinition(word){
+async function getDefinitions(word){
+    let definitions = []
     await queryDict(word)
     .then((response)=>{
-        console.log(response)
+        console.log(typeof(response))
         return response
     })
 }
 
+function filterByFirstLetter(letter){
+    const filteredList = []
+    for (const word in words){
+        if (word[0]!=letter){
+        } else {
+            filteredList.push(word)
+        }
+    }
+    return filteredList
+}
+
 function backronym(word){
+    
     for (const w in word){
-        console.log(word[w])
+        let letter = word[w]
+        let temp = filterByFirstLetter(letter)
+        getRandomWord(temp)
     }
 }
 
-filterWordList()
-let term = getRandomWord()
-let query = queryDict(term)
-console.log(query)
+const fl = filterByFourLetters()
+let term = getRandomWord(fl)
+let list = getDefinitions(term)
+console.log(list)
 backronym(term)
 
 
