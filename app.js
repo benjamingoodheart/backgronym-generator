@@ -2,6 +2,7 @@ const fs = require("fs/promises");
 const words = require("./words_dictionary.json");
 const axios = require("axios");
 const BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+const fetched = false
 
 function filterByFourLetters() {
   const four_letters = [];
@@ -40,12 +41,12 @@ async function getDefinitions(word) {
   const endpoint = `${BASE_URL}${word}`;
   try {
     await axios.get(endpoint).then((response) => {
-      let definitions = response.data[0].meanings[0].definitions;
+      const definitions = Object.freeze(response.data[0].meanings[0].definitions);
       console.log(definitions);
       return definitions;
     });
   } catch (err) {
-    console.log("Whoops - No definitions, let's try again");
+    console.log(err);
     return err;
   }
 }
@@ -70,10 +71,7 @@ function backronym(word) {
 }
 
 const fl = filterByFourLetters();
-let term = getRandomWord(fl);
-let fetched = true
-const definitions = async ()=> await getDefinitions(term);
-definitions()
-if(fetched != true){
-    backronym(term)
-}
+const term = getRandomWord(fl);
+
+const response = getDefinitions(term);
+
