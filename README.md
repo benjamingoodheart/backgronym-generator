@@ -1,2 +1,3 @@
-# dictionary-app
- i need random words
+# backgronym-generator
+
+WIP
