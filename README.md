@@ -1,3 +1,7 @@
 # backgronym-generator
 
-WIP
+To run
+```
+npm i
+node app
+```
