@@ -46,7 +46,7 @@ async function getDefinitions(word) {
       return definitions;
     });
   } catch (err) {
-
+    console.log(`😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵`)
     console.log(`Looks like we cant find a def for: ${word.toUpperCase()}` )
     console.log(`It's now up to you to guide the word ${word.toUpperCase()} toward meaning...Or just consult another dictionary.`)
     return err;
@@ -81,7 +81,7 @@ function backgronym(word) {
 
     console.log(getRandomWord(temp));
   }
-  return `~~~~~~~~~~~ ⍞⍠ 🆒🆒 ⍠⍞ ~~~~~~~~~~`
+  return `\n~~~~~~~~~~~ ⍞⍠ 🆒🆒 ⍠⍞ ~~~~~~~~~~`
 }
 
 const fl = filterByLength(getRandomInt(4, 8));
@@ -97,7 +97,6 @@ function mainDriver(){
   console.log(term)
   console.log(`And a backgronym for ${term.toUpperCase()} is...`)
   console.log(backgronym(term))
-  console.log(``)
   console.log(`-------__⁉🙉_W A I T_🙉⁉__-------`)
   console.log(``)
   console.log(`What the heck does ${term.toUpperCase()} mean?`)
