@@ -36,8 +36,8 @@ function getRandomWord(wordArr) {
   }
 }
 
+
 async function getDefinitions(word) {
-  
   const endpoint = `${BASE_URL}${word}`;
   try {
     await axios.get(endpoint).then((response) => {
@@ -46,7 +46,9 @@ async function getDefinitions(word) {
       return definitions;
     });
   } catch (err) {
-    console.log(`Looks like we cant find a def for: ${word}` )
+
+    console.log(`Looks like we cant find a def for: ${word.toUpperCase()}` )
+    console.log(`It's now up to you to guide the word ${word.toUpperCase()} toward meaning...Or just consult another dictionary.`)
     return err;
   }
 }
@@ -62,7 +64,7 @@ function filterByPrefix(prefix){
 
 function filterByFirstLetter(letter) {
   const filteredList = [];
-  for (const word in words) {
+  for (let word in words) {
     if (word[0] != letter) {
     } else {
       filteredList.push(word);
@@ -76,12 +78,16 @@ function backgronym(word) {
   for (const w in word) {
     let letter = word[w];
     let temp = filterByFirstLetter(letter);
+
     console.log(getRandomWord(temp));
   }
+  return `~~~~~~~~~~~ ⍞⍠ 🆒🆒 ⍠⍞ ~~~~~~~~~~`
 }
 
-const fl = filterByLength(4);
+const fl = filterByLength(getRandomInt(4, 8));
 const term = getRandomWord(fl);
+
+
 const definitionsResults = ( async ()=>{
   return getDefinitions(term)
 })
@@ -89,10 +95,12 @@ const definitionsResults = ( async ()=>{
 function mainDriver(){
   console.log("The term is...")
   console.log(term)
-  console.log(`And a backgronym for ${term} is...`)
+  console.log(`And a backgronym for ${term.toUpperCase()} is...`)
   console.log(backgronym(term))
-  console.log(`-------- Wait --------`)
-  console.log(`What the hell does ${term} mean?`)
+  console.log(``)
+  console.log(`-------__⁉🙉_W A I T_🙉⁉__-------`)
+  console.log(``)
+  console.log(`What the heck does ${term.toUpperCase()} mean?`)
   console.log(definitionsResults())
 }
 
